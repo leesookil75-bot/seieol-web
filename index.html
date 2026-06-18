@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>세얼환경 | 지속가능한 성장</title>
+<!-- ============================================================
+  세얼환경 2027 공식 웹사이트 (반응형 원페이지)
+  [사진 교체] : 본문에서 "사진 교체" 주석을 찾아 <img>로 바꾸세요.
+  [정보 교체] : 하단 footer의 주소·전화·이메일을 수정하세요.
+  [로고 교체] : 상단 .logo 텍스트를 로고 이미지로 바꿀 수 있습니다.
+============================================================ -->
+<style>
+  *{margin:0;padding:0;box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{font-family:'Malgun Gothic','맑은 고딕',sans-serif;color:#243;line-height:1.65;background:#fff;}
+  a{text-decoration:none;color:inherit;}
+  img{max-width:100%;display:block;}
+  .wrap{max-width:1140px;margin:0 auto;padding:0 24px;}
+  /* NAV */
+  header.nav{position:sticky;top:0;z-index:50;background:rgba(255,255,255,.94);backdrop-filter:blur(6px);border-bottom:1px solid #E7EFEA;}
+  .nav .wrap{display:flex;align-items:center;justify-content:space-between;height:64px;}
+  .logo{font-weight:800;font-size:20px;color:#2E9E6B;letter-spacing:-.5px;}
+  .logo span{color:#2F6FB3;}
+  .menu{display:flex;align-items:center;gap:26px;font-size:15px;color:#37534A;font-weight:600;}
+  .menu a:hover{color:#2E9E6B;}
+  .navbtn{background:#2E9E6B;color:#fff!important;padding:9px 16px;border-radius:22px;font-size:14px;font-weight:700;}
+  .hamburger{display:none;font-size:26px;line-height:1;cursor:pointer;background:none;border:none;color:#2E9E6B;}
+  /* HERO */
+  .hero{background:linear-gradient(135deg,#2E9E6B 0%,#2F6FB3 100%);color:#fff;padding:96px 0 104px;position:relative;overflow:hidden;}
+  /* [사진 교체] 히어로 배경에 사진을 넣으려면 위 background에 url('이미지.jpg') 를 그라데이션과 함께 추가하세요. */
+  .hero:after{content:"";position:absolute;right:-120px;top:-80px;width:420px;height:420px;background:rgba(255,255,255,.08);border-radius:50%;}
+  .hero .eyebrow{font-size:15px;font-weight:700;opacity:.92;letter-spacing:2px;margin-bottom:18px;}
+  .hero h1{font-size:44px;line-height:1.3;font-weight:800;letter-spacing:-1px;margin-bottom:22px;}
+  .hero p.sub{font-size:18px;opacity:.95;max-width:680px;margin-bottom:34px;}
+  .hero .cta a{display:inline-block;margin:6px 12px 6px 0;padding:14px 28px;border-radius:30px;font-weight:700;font-size:16px;}
+  .cta .primary{background:#fff;color:#2E9E6B;}
+  .cta .ghost{border:2px solid rgba(255,255,255,.7);color:#fff;}
+  /* SECTION */
+  section{padding:84px 0;}
+  .tag{display:inline-block;color:#2E9E6B;font-weight:800;font-size:14px;letter-spacing:2px;margin-bottom:12px;}
+  h2.title{font-size:32px;font-weight:800;color:#1E3A30;letter-spacing:-.8px;margin-bottom:16px;}
+  .lead{font-size:17px;color:#46615A;max-width:760px;}
+  .bg-soft{background:#F4FAF7;}
+  .bg-blue{background:#F3F7FC;}
+  /* CARDS */
+  .grid4{display:grid;grid-template-columns:repeat(4,1fr);gap:20px;margin-top:42px;}
+  .card{background:#fff;border:1px solid #E7EFEA;border-radius:16px;padding:28px 24px;box-shadow:0 6px 22px rgba(40,90,70,.05);}
+  .card .ic{width:48px;height:48px;border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:22px;font-weight:800;color:#fff;margin-bottom:16px;background:linear-gradient(135deg,#2E9E6B,#2F6FB3);}
+  .card h3{font-size:19px;color:#1E3A30;margin-bottom:8px;}
+  .card p{font-size:14.5px;color:#54706A;}
+  .pill{display:grid;grid-template-columns:repeat(4,1fr);gap:18px;margin-top:40px;}
+  .pillcard{background:#fff;border-radius:16px;padding:26px 22px;border-top:4px solid #2E9E6B;box-shadow:0 6px 22px rgba(40,90,70,.06);}
+  .pillcard:nth-child(2){border-top-color:#3C8FA0;}
+  .pillcard:nth-child(3){border-top-color:#2F6FB3;}
+  .pillcard:nth-child(4){border-top-color:#5B8A4E;}
+  .pillcard .no{font-size:13px;font-weight:800;color:#9bb;letter-spacing:1px;}
+  .pillcard h4{font-size:18px;color:#1E3A30;margin:6px 0 10px;}
+  .pillcard ul{list-style:none;font-size:14px;color:#54706A;}
+  .pillcard li{padding-left:14px;position:relative;margin:5px 0;}
+  .pillcard li:before{content:"";position:absolute;left:0;top:9px;width:6px;height:6px;border-radius:50%;background:#2E9E6B;}
+  /* SAFETY split */
+  .split{display:grid;grid-template-columns:1.1fr 1fr;gap:40px;align-items:center;}
+  .split .imgbox{height:300px;border-radius:18px;background:linear-gradient(135deg,#DCEFE5,#DCE8F5);display:flex;align-items:center;justify-content:center;color:#3C8FA0;font-weight:700;font-size:18px;}
+  .check li{list-style:none;font-size:16px;color:#3a554d;margin:12px 0;padding-left:30px;position:relative;}
+  .check li:before{content:"\2713";position:absolute;left:0;color:#2E9E6B;font-weight:900;}
+  /* CAREER */
+  .career{background:linear-gradient(135deg,#2F6FB3 0%,#2E9E6B 100%);color:#fff;border-radius:22px;padding:54px 48px;margin-top:10px;text-align:center;}
+  .career h2{font-size:30px;font-weight:800;margin-bottom:14px;}
+  .career p{font-size:17px;opacity:.95;max-width:680px;margin:0 auto 26px;}
+  .career a{display:inline-block;background:#fff;color:#2F6FB3;padding:14px 30px;border-radius:30px;font-weight:800;}
+  /* FOOTER */
+  footer{background:#16302A;color:#cfe;padding:54px 0 30px;}
+  footer .cols{display:grid;grid-template-columns:1.4fr 1fr 1fr;gap:30px;}
+  footer h4{color:#fff;font-size:17px;margin-bottom:12px;}
+  footer p,footer a{font-size:14px;color:#a9c7bd;line-height:1.9;}
+  .copy{border-top:1px solid #2a4a42;margin-top:30px;padding-top:18px;font-size:13px;color:#7fa597;}
+  /* RESPONSIVE */
+  @media(max-width:880px){
+    .grid4,.pill{grid-template-columns:repeat(2,1fr);}
+    .split,footer .cols{grid-template-columns:1fr;}
+    .hero h1{font-size:30px;}
+    .hero{padding:70px 0 78px;}
+    section{padding:60px 0;}
+    .hamburger{display:block;}
+    .menu{display:none;position:absolute;top:64px;left:0;right:0;background:#fff;flex-direction:column;align-items:flex-start;gap:18px;padding:20px 24px;border-bottom:1px solid #E7EFEA;box-shadow:0 10px 20px rgba(0,0,0,.06);}
+    .menu.open{display:flex;}
+    .career{padding:40px 24px;}
+  }
+  @media(max-width:520px){
+    .grid4,.pill{grid-template-columns:1fr;}
+    .hero h1{font-size:25px;}
+  }
+</style>
+</head>
+<body>
+
+<header class="nav"><div class="wrap">
+  <!-- [로고 교체] 아래 텍스트를 <img src="logo.png" style="height:34px"> 로 바꿀 수 있습니다. -->
+  <div class="logo">세얼<span>환경</span></div>
+  <nav class="menu" id="menu">
+    <a href="#about">회사소개</a>
+    <a href="#vision">비전·가치</a>
+    <a href="#strategy">2027 전략</a>
+    <a href="#safety">안전·환경</a>
+    <a href="#career">함께성장</a>
+    <a href="#contact" class="navbtn">문의하기</a>
+  </nav>
+  <button class="hamburger" id="hamburger" aria-label="메뉴">&#9776;</button>
+</div></header>
+
+<!-- HERO -->
+<section class="hero"><div class="wrap">
+  <div class="eyebrow">SUSTAINABLE GROWTH · 2027</div>
+  <h1>우리가 움직이면 도시가 바뀌고,<br/>도시가 바뀌면 우리의 내일도 성장합니다</h1>
+  <p class="sub">자율과 책임의 문화 위에서, 예측 가능한 제도로 신뢰를 쌓고<br/>개인과 회사가 함께 성장하는 환경 서비스 기업, 세얼환경입니다.</p>
+  <div class="cta">
+    <a href="#strategy" class="primary">2027 전략 보기</a>
+    <a href="#career" class="ghost">함께 성장하기</a>
+  </div>
+</div></section>
+
+<!-- ABOUT -->
+<section id="about"><div class="wrap">
+  <span class="tag">ABOUT</span>
+  <h2 class="title">김포 시민의 생활환경을 책임집니다</h2>
+  <p class="lead">세얼환경은 김포시 생활폐기물 수집·운반 대행을 수행하는 환경 서비스 기업입니다. 매일 새벽, 우리의 손길이 닿는 곳마다 도시는 더 깨끗하고 안전해집니다. 우리는 단순한 폐기물 수거를 넘어, 시민의 일상과 도시의 내일을 지키는 일을 합니다.</p>
+</div></section>
+
+<!-- VISION / VALUES -->
+<section id="vision" class="bg-soft"><div class="wrap">
+  <span class="tag">VISION &amp; VALUES</span>
+  <h2 class="title">지속가능한 성장을 위한 네 가지 가치</h2>
+  <p class="lead">규약과 규범을 준수하고, 책임·의무·권한을 분명히 하며, 예측 가능한 제도로 신뢰를 구축합니다.</p>
+  <div class="grid4">
+    <div class="card"><div class="ic">A</div><h3>자율</h3><p>스스로 일하는 문화 속에서 능동적으로 업무를 수행합니다.</p></div>
+    <div class="card"><div class="ic">R</div><h3>책임</h3><p>권한과 책임을 일치시키고 그 결과에 책임집니다.</p></div>
+    <div class="card"><div class="ic">T</div><h3>신뢰</h3><p>규범을 준수하고 투명하게 운영하여 신뢰를 쌓습니다.</p></div>
+    <div class="card"><div class="ic">G</div><h3>성장</h3><p>기회를 균등히 열고 개인과 회사의 동반 성장을 지원합니다.</p></div>
+  </div>
+</div></section>
+
+<!-- STRATEGY -->
+<section id="strategy"><div class="wrap">
+  <span class="tag">2027 STRATEGY</span>
+  <h2 class="title">2027 경영전략 4대 축</h2>
+  <p class="lead">예측 가능한 제도와 공정한 기회, 신뢰의 거버넌스, 안전한 현장으로 지속가능한 성장을 실현합니다.</p>
+  <div class="pill">
+    <div class="pillcard"><div class="no">01</div><h4>예측 가능한 제도</h4><ul><li>총괄팀장 순환보직제</li><li>명확한 권한·책임 체계</li><li>직제·급여규정 정비</li></ul></div>
+    <div class="pillcard"><div class="no">02</div><h4>공정한 기회와 성장</h4><ul><li>정규직 전환 로드맵</li><li>열린 승진 경로</li><li>리더십 교육·경력 인정</li></ul></div>
+    <div class="pillcard"><div class="no">03</div><h4>신뢰의 거버넌스</h4><ul><li>열린 소통·고충 창구</li><li>공정한 인사 운영</li><li>투명한 기록 관리</li></ul></div>
+    <div class="pillcard"><div class="no">04</div><h4>안전하고 지속가능한 현장</h4><ul><li>안전보건·건강 보호</li><li>작업환경 개선</li><li>환경 서비스 품질 향상</li></ul></div>
+  </div>
+</div></section>
+
+<!-- SAFETY -->
+<section id="safety" class="bg-blue"><div class="wrap">
+  <span class="tag">SAFETY &amp; ENVIRONMENT</span>
+  <h2 class="title">안전한 일터, 깨끗한 도시</h2>
+  <div class="split" style="margin-top:34px;">
+    <ul class="check">
+      <li>작업환경 개선과 정기 안전보건 교육</li>
+      <li>안전보호구·작업복 지급 및 예방접종 지원</li>
+      <li>정기 건강검진으로 임직원 건강 보호</li>
+      <li>장비·공정 현대화를 통한 효율과 안전의 동반 향상</li>
+    </ul>
+    <!-- [사진 교체] 아래 div를 <img src="현장사진.jpg" style="width:100%;height:300px;object-fit:cover;border-radius:18px;"> 로 교체하세요. -->
+    <div class="imgbox">[ 현장·도시 환경 이미지 ]</div>
+  </div>
+</div></section>
+
+<!-- CAREER -->
+<section id="career"><div class="wrap">
+  <div class="career">
+    <h2>함께 성장할 동료를 찾습니다</h2>
+    <p>2년 계속근로 시 정규직 전환을 정례화하고, 우수 직원에게는 조기 전환과 승진의 길을 엽니다. 누구에게나 공정한 기회가 열려 있습니다.</p>
+    <a href="#contact">채용 문의하기</a>
+  </div>
+</div></section>
+
+<!-- CONTACT / FOOTER -->
+<footer id="contact"><div class="wrap">
+  <div class="cols">
+    <div>
+      <h4>세얼환경</h4>
+      <p>김포 시민의 생활환경을 책임지는 환경 서비스 기업.<br/>"우리가 움직이면 도시가 바뀌고, 도시가 바뀌면 우리의 내일도 성장합니다."</p>
+    </div>
+    <div>
+      <h4>바로가기</h4>
+      <p><a href="#about">회사소개</a><br/><a href="#strategy">2027 전략</a><br/><a href="#career">함께성장</a></p>
+    </div>
+    <div>
+      <!-- [정보 교체] 실제 주소·전화·이메일로 수정하세요. -->
+      <h4>문의</h4>
+      <p>경기도 김포시 (주소 입력)<br/>Tel. 000-0000-0000<br/>E. info@saeol.co.kr</p>
+    </div>
+  </div>
+  <div class="copy">&copy; 2027 주식회사 세얼환경. All rights reserved.</div>
+</div></footer>
+
+<script>
+  // 모바일 햄버거 메뉴 토글
+  var hb=document.getElementById('hamburger'), mn=document.getElementById('menu');
+  hb.addEventListener('click',function(){ mn.classList.toggle('open'); });
+  mn.querySelectorAll('a').forEach(function(a){ a.addEventListener('click',function(){ mn.classList.remove('open'); }); });
+</script>
+</body>
+</html>
