@@ -36,6 +36,15 @@
   .hero .cta a{display:inline-block;margin:6px 12px 6px 0;padding:14px 28px;border-radius:30px;font-weight:700;font-size:16px;}
   .cta .primary{background:#fff;color:#2E9E6B;}
   .cta .ghost{border:2px solid rgba(255,255,255,.7);color:#fff;}
+  /* BARO BANNER */
+  .navbaro{background:#2F6FB3!important;}
+  .baroband{background:#EAF7F0;border-top:1px solid #DCEFE5;border-bottom:1px solid #DCEFE5;padding:30px 0;}
+  .baroband .row{display:flex;align-items:center;justify-content:space-between;gap:24px;flex-wrap:wrap;}
+  .baroband .badge2{display:inline-block;background:#2E9E6B;color:#fff;font-size:12px;font-weight:800;letter-spacing:1px;padding:4px 12px;border-radius:20px;margin-bottom:10px;}
+  .baroband h3{font-size:23px;color:#1E3A30;font-weight:800;letter-spacing:-.5px;}
+  .baroband h3 b{color:#2E9E6B;}
+  .baroband p{font-size:15px;color:#46615A;margin-top:6px;}
+  .baroband .go{background:#2E9E6B;color:#fff;font-weight:800;font-size:16px;padding:15px 30px;border-radius:30px;white-space:nowrap;box-shadow:0 6px 18px rgba(46,158,107,.28);}
   /* SECTION */
   section{padding:84px 0;}
   .tag{display:inline-block;color:#2E9E6B;font-weight:800;font-size:14px;letter-spacing:2px;margin-bottom:12px;}
@@ -86,6 +95,8 @@
     .menu{display:none;position:absolute;top:64px;left:0;right:0;background:#fff;flex-direction:column;align-items:flex-start;gap:18px;padding:20px 24px;border-bottom:1px solid #E7EFEA;box-shadow:0 10px 20px rgba(0,0,0,.06);}
     .menu.open{display:flex;}
     .career{padding:40px 24px;}
+    .baroband .row{flex-direction:column;align-items:flex-start;}
+    .baroband .go{width:100%;text-align:center;}
     .brk{display:none;}
   }
   @media(max-width:520px){
@@ -109,6 +120,7 @@
     <a href="#strategy">2027 전략</a>
     <a href="#safety">안전·환경</a>
     <a href="#career">함께성장</a>
+    <a href="baro/" class="navbtn navbaro">바로청소</a>
     <a href="#contact" class="navbtn">문의하기</a>
   </nav>
   <button class="hamburger" id="hamburger" aria-label="메뉴">&#9776;</button>
@@ -124,6 +136,16 @@
     <a href="#career" class="ghost">함께 성장하기</a>
   </div>
 </div></section>
+
+<!-- 바로청소 배너 -->
+<div class="baroband"><div class="wrap"><div class="row">
+  <div>
+    <span class="badge2">NEW · 시민 참여 서비스</span>
+    <h3>쓰레기 수거가 필요하세요? <b>‘바로청소’</b>로 바로 요청하세요</h3>
+    <p>상습 투기·수거 누락 지점을 사진과 함께 알려주시면, 기동반이 당일 처리합니다.</p>
+  </div>
+  <a href="baro/" class="go">청소 요청하기 &rarr;</a>
+</div></div></div>
 
 <!-- ABOUT -->
 <section id="about"><div class="wrap">
@@ -192,7 +214,7 @@
     </div>
     <div>
       <h4>바로가기</h4>
-      <p><a href="#about">회사소개</a><br/><a href="#strategy">2027 전략</a><br/><a href="#career">함께성장</a></p>
+      <p><a href="#about">회사소개</a><br/><a href="#strategy">2027 전략</a><br/><a href="#career">함께성장</a><br/><a href="baro/">바로청소 (청소 요청)</a></p>
     </div>
     <div>
       <!-- [정보 교체] 실제 주소·전화·이메일로 수정하세요. -->
