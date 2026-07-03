@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>바로청소 · 관리자</title>
+<style>
+  :root{ --g:#2E9E6B; --gd:#1f7d52; --gl:#e8f6ef; --b:#2F6FB3; --bd:#245a91;
+         --tx:#1b2b24; --mut:#71817a; --line:#e2e7e4; --pg:#eceff1; }
+  *{ box-sizing:border-box; margin:0; padding:0; }
+  body{ font-family:'Malgun Gothic','Apple SD Gothic Neo',sans-serif; background:var(--pg); color:var(--tx); }
+  .ico{ width:20px; height:20px; fill:currentColor; }
+  /* login */
+  #login{ max-width:340px; margin:60px auto; background:#fff; border:1px solid var(--line); border-radius:16px; padding:26px 24px; }
+  #login .brand{ display:flex; align-items:center; gap:8px; font-size:20px; font-weight:800; color:var(--gd); justify-content:center; }
+  #login .sub{ text-align:center; font-size:12.5px; color:var(--mut); margin:6px 0 20px; }
+  #login input{ width:100%; border:1.5px solid var(--line); border-radius:10px; padding:12px; font-size:14px; margin-bottom:10px; font-family:inherit; }
+  #login input:focus{ outline:none; border-color:var(--g); }
+  #login button{ width:100%; background:var(--g); color:#fff; border:0; border-radius:10px; padding:13px; font-size:15px; font-weight:bold; cursor:pointer; }
+  #login .err{ color:#b4671a; font-size:12.5px; text-align:center; margin-top:10px; min-height:16px; }
+  /* dashboard */
+  #dash{ display:none; max-width:1080px; margin:0 auto; padding:18px; }
+  .dhd{ background:#12241b; color:#fff; padding:15px 20px; border-radius:14px; display:flex; align-items:center; justify-content:space-between; }
+  .dhd .l{ display:flex; align-items:center; gap:9px; font-size:16px; font-weight:800; }
+  .dhd .tag2{ font-size:12px; color:#9fb8ac; font-weight:normal; margin-left:4px; }
+  .dhd .r{ font-size:12px; color:#c9d6cf; display:flex; align-items:center; gap:12px; }
+  .dhd .out{ color:#fff; background:rgba(255,255,255,.14); border:0; border-radius:7px; padding:6px 11px; font-size:12px; cursor:pointer; }
+  .stats{ display:grid; grid-template-columns:repeat(4,1fr); gap:12px; margin:14px 0; }
+  .stat{ background:#fff; border:1px solid var(--line); border-radius:12px; padding:14px 16px; }
+  .stat .n{ font-size:26px; font-weight:800; }
+  .stat .c{ font-size:12px; color:var(--mut); margin-top:2px; }
+  .stat.a .n{ color:var(--b); } .stat.b .n{ color:#c98a10; } .stat.c2 .n{ color:var(--g); } .stat.d .n{ color:#8a8f8c; }
+  .bar{ display:flex; align-items:center; justify-content:space-between; margin:6px 0 10px; flex-wrap:wrap; gap:8px; }
+  .tabs{ display:flex; gap:8px; flex-wrap:wrap; }
+  .tab{ font-size:13px; padding:7px 14px; border-radius:20px; border:1.4px solid var(--line); color:var(--mut); background:#fff; cursor:pointer; }
+  .tab.on{ background:var(--g); border-color:var(--g); color:#fff; font-weight:bold; }
+  .csv{ font-size:13px; font-weight:bold; color:#fff; background:var(--b); border:0; border-radius:9px; padding:9px 15px; cursor:pointer; }
+  .tblwrap{ background:#fff; border:1px solid var(--line); border-radius:14px; overflow:auto; }
+  table{ width:100%; border-collapse:collapse; min-width:820px; }
+  th,td{ text-align:left; padding:12px 16px; font-size:13px; border-top:1px solid var(--line); vertical-align:middle; }
+  th{ background:#fafbfa; color:var(--mut); font-weight:bold; font-size:12px; border-top:0; position:sticky; top:0; }
+  .bg{ display:inline-block; font-size:11.5px; font-weight:bold; padding:4px 10px; border-radius:12px; white-space:nowrap; }
+  .bg.c0{ background:#fdeee3; color:#b4671a; } .bg.c1{ background:#fbe6e6; color:#a32d2d; } .bg.c2{ background:#eef1f3; color:#6b7770; }
+  .st{ display:inline-flex; align-items:center; gap:6px; font-size:12.5px; font-weight:bold; white-space:nowrap; }
+  .st .dot{ width:8px; height:8px; border-radius:50%; }
+  .st.received{ color:var(--b); } .st.received .dot{ background:var(--b); }
+  .st.dispatched{ color:#c98a10; } .st.dispatched .dot{ background:#c98a10; }
+  .st.done{ color:var(--g); } .st.done .dot{ background:var(--g); }
+  .act{ font-size:12px; font-weight:bold; color:var(--gd); border:1.3px solid var(--g); border-radius:8px; padding:6px 11px; background:#fff; cursor:pointer; white-space:nowrap; }
+  .act.blue{ color:var(--bd); border-color:var(--b); }
+  .act.del{ color:#a32d2d; border-color:#e2b4b4; }
+  .thumb{ width:40px; height:30px; border-radius:5px; object-fit:cover; border:1px solid var(--line); background:#dfe8e3; cursor:pointer; }
+  .empty{ text-align:center; color:var(--mut); padding:40px; font-size:14px; }
+  a.loclink{ color:var(--b); text-decoration:none; font-size:12px; }
+  .muted{ color:var(--mut); font-size:12px; }
+  #lb{ display:none; position:fixed; inset:0; background:rgba(0,0,0,.82); z-index:50; align-items:center; justify-content:center; padding:24px; }
+  #lb .in{ max-width:920px; max-height:88vh; overflow:auto; display:flex; flex-wrap:wrap; gap:12px; justify-content:center; }
+  #lb img{ max-width:100%; max-height:80vh; border-radius:8px; background:#fff; }
+  #lb .x{ position:fixed; top:16px; right:22px; color:#fff; font-size:34px; line-height:1; cursor:pointer; }
+</style>
+</head>
+<body>
+
+<div id="login">
+  <div class="brand"><svg class="ico" viewBox="0 0 24 24" style="fill:var(--g)"><path d="M12 3l3 5h-2v4h-2V8H9l3-5zm7.5 8l1.8 3.1-2.6 1.5-1-1.7-1.7 1 1-4.4 4.5.5zM4.5 11l4.5-.5 1 4.4-1.7-1-1 1.7-2.6-1.5L4.5 11zM8 18h8l-1.5 2.6H9.5L8 18z"/></svg>바로청소 관리자</div>
+  <div class="sub">기동반 대시보드 로그인</div>
+  <input id="email" type="email" placeholder="관리자 이메일" autocomplete="username"/>
+  <input id="pw" type="password" placeholder="비밀번호" autocomplete="current-password"/>
+  <button id="loginBtn">로그인</button>
+  <div class="err" id="loginErr"></div>
+</div>
+
+<div id="dash">
+  <div class="dhd">
+    <div class="l"><svg class="ico" viewBox="0 0 24 24" style="fill:#fff"><path d="M12 3l3 5h-2v4h-2V8H9l3-5zm7.5 8l1.8 3.1-2.6 1.5-1-1.7-1.7 1 1-4.4 4.5.5zM4.5 11l4.5-.5 1 4.4-1.7-1-1 1.7-2.6-1.5L4.5 11zM8 18h8l-1.5 2.6H9.5L8 18z"/></svg>바로청소 관리자<span class="tag2">기동반 대시보드</span></div>
+    <div class="r"><span id="who"></span><button class="out" id="logout">로그아웃</button></div>
+  </div>
+
+  <div class="stats">
+    <div class="stat a"><div class="n" id="s-today">0</div><div class="c">오늘 접수</div></div>
+    <div class="stat b"><div class="n" id="s-go">0</div><div class="c">처리 중(출동)</div></div>
+    <div class="stat c2"><div class="n" id="s-done">0</div><div class="c">처리 완료</div></div>
+    <div class="stat d"><div class="n" id="s-city">0</div><div class="c">시청 이관</div></div>
+  </div>
+
+  <div class="bar">
+    <div class="tabs" id="tabs">
+      <span class="tab on" data-f="all">전체</span>
+      <span class="tab" data-f="received">접수</span>
+      <span class="tab" data-f="dispatched">출동</span>
+      <span class="tab" data-f="done">완료</span>
+      <span class="tab" data-f="city">시청이관</span>
+    </div>
+    <button class="csv" id="csvBtn">CSV 내보내기 (평가 증빙)</button>
+  </div>
+
+  <div class="tblwrap">
+    <table>
+      <thead><tr><th>접수번호</th><th>유형</th><th>위치</th><th>접수시각</th><th>사진</th><th>상태</th><th>처리</th></tr></thead>
+      <tbody id="rows"></tbody>
+    </table>
+    <div class="empty" id="empty" style="display:none">요청이 없습니다.</div>
+  </div>
+  <div class="muted" style="margin:10px 2px">※ 상태를 눌러 접수 → 출동 → 완료로 진행하세요. ‘시청이관’은 단속성 사안을 시로 넘길 때 사용합니다.</div>
+</div>
+
+<div id="lb" onclick="if(event.target.id==='lb'||event.target.className==='x')this.style.display='none'"><span class="x">×</span><div class="in" id="lbInner"></div></div>
+
+<script type="module">
+import { firebaseConfig, CATEGORIES } from './firebase-config.js';
+import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js';
+import { getAuth, signInWithEmailAndPassword, signOut, onAuthStateChanged } from 'https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js';
+import { getFirestore, collection, query, orderBy, onSnapshot, doc, updateDoc, getDocs, deleteDoc } from 'https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js';
+
+const app=initializeApp(firebaseConfig), auth=getAuth(app), db=getFirestore(app);
+const $=s=>document.querySelector(s);
+const CATIDX=c=>Math.max(0,CATEGORIES.indexOf(c));
+
+// 로그인
+$('#loginBtn').onclick=async()=>{ $('#loginErr').textContent='';
+  try{ await signInWithEmailAndPassword(auth,$('#email').value.trim(),$('#pw').value); }
+  catch(e){ $('#loginErr').textContent='로그인 실패 — 이메일/비밀번호를 확인하세요'; } };
+$('#pw').addEventListener('keydown',e=>{ if(e.key==='Enter') $('#loginBtn').click(); });
+$('#logout').onclick=()=>signOut(auth);
+
+let unsub=null;
+onAuthStateChanged(auth,user=>{
+  if(user){ $('#login').style.display='none'; $('#dash').style.display='block'; $('#who').textContent=user.email; start(); }
+  else{ $('#login').style.display='block'; $('#dash').style.display='none'; if(unsub){unsub();unsub=null;} }
+});
+
+let all=[], filter='all';
+const STLABEL={received:'접수',dispatched:'출동 중',done:'완료'};
+const NEXT={received:'dispatched',dispatched:'done'};
+const NEXTLABEL={received:'출동 처리',dispatched:'완료 처리'};
+
+function start(){
+  const q=query(collection(db,'requests'),orderBy('createdAt','desc'));
+  unsub=onSnapshot(q,snap=>{ all=snap.docs.map(d=>({id:d.id,...d.data()})); render(); });
+}
+
+$('#tabs').onclick=e=>{ const t=e.target.closest('.tab'); if(!t)return;
+  [...$('#tabs').children].forEach(x=>x.classList.remove('on')); t.classList.add('on'); filter=t.dataset.f; render(); };
+
+function fmt(ts){ if(!ts) return '–'; const d=ts.toDate?ts.toDate():new Date(ts); const p=n=>String(n).padStart(2,'0');
+  return `${p(d.getMonth()+1)}-${p(d.getDate())} ${p(d.getHours())}:${p(d.getMinutes())}`; }
+function isToday(ts){ if(!ts)return false; const d=ts.toDate?ts.toDate():new Date(ts), n=new Date();
+  return d.getFullYear()===n.getFullYear()&&d.getMonth()===n.getMonth()&&d.getDate()===n.getDate(); }
+
+function render(){
+  $('#s-today').textContent=all.filter(r=>isToday(r.createdAt)).length;
+  $('#s-go').textContent=all.filter(r=>r.status==='dispatched').length;
+  $('#s-done').textContent=all.filter(r=>r.status==='done').length;
+  $('#s-city').textContent=all.filter(r=>r.cityReferred).length;
+
+  let list=all;
+  if(filter==='city') list=all.filter(r=>r.cityReferred);
+  else if(filter!=='all') list=all.filter(r=>r.status===filter);
+
+  const rows=$('#rows'); rows.innerHTML='';
+  $('#empty').style.display=list.length?'none':'block';
+  for(const r of list){
+    const tr=document.createElement('tr');
+    const loc = (r.lat!=null&&r.lng!=null) ? `<a class="loclink" href="https://maps.google.com/?q=${r.lat},${r.lng}" target="_blank">${r.address||'지도 보기'} ↗</a>` : (r.address||'<span class="muted">위치 없음</span>');
+    const thumb = (r.photoCount>0) ? `<button class="act" data-photos="${r.id}">${r.photoCount}장 보기</button>` : '<span class="muted">없음</span>';
+    const nextBtn = NEXT[r.status] ? `<button class="act" data-id="${r.id}" data-next="${NEXT[r.status]}">${NEXTLABEL[r.status]}</button>` : '<span class="muted">완료됨</span>';
+    const cityBtn = r.cityReferred ? '<span class="muted">이관됨</span>' : `<button class="act blue" data-id="${r.id}" data-city="1">시청이관</button>`;
+    tr.innerHTML=`<td><b>${r.receiptNo||'–'}</b></td>
+      <td><span class="bg c${CATIDX(r.category)}">${r.category||'-'}</span></td>
+      <td>${loc}</td><td>${fmt(r.createdAt)}</td><td>${thumb}</td>
+      <td><span class="st ${r.status}"><span class="dot"></span>${STLABEL[r.status]||r.status}</span></td>
+      <td style="white-space:nowrap">${nextBtn} ${cityBtn} <button class="act del" data-del="${r.id}">삭제</button></td>`;
+    rows.appendChild(tr);
+  }
+}
+
+$('#rows').onclick=async e=>{
+  const b=e.target.closest('button.act'); if(!b)return;
+  if(b.dataset.photos){ return showPhotos(b.dataset.photos); }
+  if(b.dataset.del){ return delRequest(b.dataset.del); }
+  const id=b.dataset.id;
+  if(b.dataset.next) await updateDoc(doc(db,'requests',id),{status:b.dataset.next, updatedAt:new Date()});
+  else if(b.dataset.city) await updateDoc(doc(db,'requests',id),{cityReferred:true, updatedAt:new Date()});
+};
+async function delRequest(id){
+  if(!confirm('이 접수를 삭제할까요? 되돌릴 수 없습니다.')) return;
+  try{
+    const media=await getDocs(collection(db,'requests',id,'media'));
+    for(const m of media.docs){ await deleteDoc(doc(db,'requests',id,'media',m.id)); }
+    await deleteDoc(doc(db,'requests',id));
+  }catch(err){ console.error(err); alert('삭제 실패 — 보안 규칙에 삭제 권한이 반영됐는지 확인하세요.'); }
+}
+async function showPhotos(id){
+  const box=$('#lb'), inner=$('#lbInner');
+  inner.innerHTML='<div style="color:#fff">불러오는 중…</div>'; box.style.display='flex';
+  try{ const snap=await getDocs(collection(db,'requests',id,'media'));
+    const imgs=snap.docs.map(d=>d.data()).sort((a,b)=>(a.idx||0)-(b.idx||0));
+    inner.innerHTML = imgs.length ? imgs.map(m=>`<img src="${m.image}">`).join('') : '<div style="color:#fff">사진이 없습니다</div>';
+  }catch(err){ inner.innerHTML='<div style="color:#fff">불러오기 실패</div>'; }
+}
+
+$('#csvBtn').onclick=()=>{
+  const head=['접수번호','유형','상태','시청이관','상세주소','위도','경도','상세내용','연락처','접수시각','사진수'];
+  const rows=all.map(r=>[r.receiptNo,r.category,STLABEL[r.status]||r.status,r.cityReferred?'Y':'',
+    r.address,r.lat,r.lng,(r.detail||'').replace(/\n/g,' '),r.phone,
+    r.createdAt?(r.createdAt.toDate?r.createdAt.toDate().toISOString():r.createdAt):'',
+    r.photoCount||0]);
+  const csv=[head,...rows].map(row=>row.map(c=>`"${String(c??'').replace(/"/g,'""')}"`).join(',')).join('\r\n');
+  const blob=new Blob(['﻿'+csv],{type:'text/csv;charset=utf-8'});
+  const a=document.createElement('a'); a.href=URL.createObjectURL(blob);
+  a.download=`바로청소_접수내역_${new Date().toISOString().slice(0,10)}.csv`; a.click();
+};
+</script>
+</body>
+</html>
