@@ -173,6 +173,8 @@ $('#submit').onclick=async ()=>{
       createdAt:serverTimestamp()
     });
     for(let i=0;i<files.length;i++){ await setDoc(doc(db,'requests',r.id,'media',String(i)),{ image:files[i], idx:i }); }
+    // 텔레그램 알림 (서버에 봇 설정 시 발송 · 실패해도 접수엔 영향 없음)
+    try{ fetch('/api/notify',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({receiptNo:rno,category,address:$('#addr').value.trim(),lat,lng,photoCount:files.length})}); }catch(e){}
     $('#form').style.display='none'; $('#rno').textContent=rno; $('#done').style.display='block';
     window.scrollTo(0,0);
   }catch(err){ console.error(err); toast('전송 실패 — 잠시 후 다시 시도해 주세요'); btn.disabled=false; btn.textContent='요청 보내기'; }
