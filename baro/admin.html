@@ -73,7 +73,7 @@
 <div id="dash">
   <div class="dhd">
     <div class="l"><svg class="ico" viewBox="0 0 24 24" style="fill:#fff"><path d="M12 3l3 5h-2v4h-2V8H9l3-5zm7.5 8l1.8 3.1-2.6 1.5-1-1.7-1.7 1 1-4.4 4.5.5zM4.5 11l4.5-.5 1 4.4-1.7-1-1 1.7-2.6-1.5L4.5 11zM8 18h8l-1.5 2.6H9.5L8 18z"/></svg>바로청소 관리자<span class="tag2">기동반 대시보드</span></div>
-    <div class="r"><span id="who"></span><button class="out" id="logout">로그아웃</button></div>
+    <div class="r"><span id="who"></span><button class="out" id="soundToggle">🔔 알림 켜짐</button><button class="out" id="logout">로그아웃</button></div>
   </div>
 
   <div class="stats">
@@ -116,8 +116,25 @@ const app=initializeApp(firebaseConfig), auth=getAuth(app), db=getFirestore(app)
 const $=s=>document.querySelector(s);
 const CATIDX=c=>Math.max(0,CATEGORIES.indexOf(c));
 
+// ── 새 접수 알림 (소리 + 브라우저 알림 + 탭 제목 배지) ──
+let soundOn=true, actx=null, firstLoad=true, baseTitle=document.title, badge=0;
+function ensureAudio(){ try{ if(!actx) actx=new (window.AudioContext||window.webkitAudioContext)(); if(actx.state==='suspended') actx.resume(); }catch(e){} }
+function beep(){ ensureAudio(); if(!actx) return; const t0=actx.currentTime;
+  [[880,0],[660,0.18]].forEach(([f,dt])=>{ const o=actx.createOscillator(), g=actx.createGain();
+    o.type='sine'; o.frequency.value=f; o.connect(g); g.connect(actx.destination);
+    g.gain.setValueAtTime(0.0001,t0+dt); g.gain.exponentialRampToValueAtTime(0.28,t0+dt+0.02);
+    g.gain.exponentialRampToValueAtTime(0.0001,t0+dt+0.35); o.start(t0+dt); o.stop(t0+dt+0.36); }); }
+function flashTitle(n){ if(!document.hidden) return; badge+=n; document.title='('+badge+') '+baseTitle; }
+window.addEventListener('focus',()=>{ badge=0; document.title=baseTitle; });
+document.addEventListener('visibilitychange',()=>{ if(!document.hidden){ badge=0; document.title=baseTitle; } });
+function onNewRequests(list){ if(soundOn) beep(); const f=list[0]||{}, n=list.length; flashTitle(n);
+  if(window.Notification && Notification.permission==='granted'){
+    try{ new Notification('🔔 새 청소요청'+(n>1?' '+n+'건':''), { body:(f.category||'요청')+' · '+(f.address||'위치 미입력'), tag:'baro-new' }); }catch(e){} } }
+$('#soundToggle').onclick=()=>{ soundOn=!soundOn; $('#soundToggle').textContent=soundOn?'🔔 알림 켜짐':'🔕 알림 꺼짐'; if(soundOn){ ensureAudio(); beep(); } };
+
 // 로그인
-$('#loginBtn').onclick=async()=>{ $('#loginErr').textContent='';
+$('#loginBtn').onclick=async()=>{ $('#loginErr').textContent=''; ensureAudio();
+  if(window.Notification && Notification.permission==='default'){ try{ Notification.requestPermission(); }catch(e){} }
   try{ await signInWithEmailAndPassword(auth,$('#email').value.trim(),$('#pw').value); }
   catch(e){ $('#loginErr').textContent='로그인 실패 — 이메일/비밀번호를 확인하세요'; } };
 $('#pw').addEventListener('keydown',e=>{ if(e.key==='Enter') $('#loginBtn').click(); });
@@ -135,8 +152,14 @@ const NEXT={received:'dispatched',dispatched:'done'};
 const NEXTLABEL={received:'출동 처리',dispatched:'완료 처리'};
 
 function start(){
+  firstLoad=true;
   const q=query(collection(db,'requests'),orderBy('createdAt','desc'));
-  unsub=onSnapshot(q,snap=>{ all=snap.docs.map(d=>({id:d.id,...d.data()})); render(); });
+  unsub=onSnapshot(q,snap=>{
+    all=snap.docs.map(d=>({id:d.id,...d.data()}));
+    if(!firstLoad){ const added=snap.docChanges().filter(c=>c.type==='added'); if(added.length) onNewRequests(added.map(c=>c.doc.data())); }
+    firstLoad=false;
+    render();
+  });
 }
 
 $('#tabs').onclick=e=>{ const t=e.target.closest('.tab'); if(!t)return;
